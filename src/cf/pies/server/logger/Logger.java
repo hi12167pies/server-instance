@@ -13,7 +13,7 @@ public class Logger {
     }
 
     public static void error(Exception e) {
-        Logger.error(e);
+        e.printStackTrace();
     }
 
     // Common strings
