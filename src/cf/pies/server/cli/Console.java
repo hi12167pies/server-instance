@@ -9,9 +9,11 @@ import java.util.Scanner;
 
 public class Console {
     public Scanner scanner = new Scanner(System.in);
+    public boolean prompting = false;
 
     public void prompt() {
-        System.out.print("$ ");
+        this.prompting = true;
+        System.out.print("> ");
     }
 
     public ExecutableLine parseLine(String line) {

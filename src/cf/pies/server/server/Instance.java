@@ -1,6 +1,7 @@
 package cf.pies.server.server;
 
 import cf.pies.server.exception.ProcessOfflineException;
+import cf.pies.server.logger.Logger;
 
 import java.io.*;
 import java.util.List;
@@ -27,7 +28,7 @@ public class Instance {
     }
 
     public void start() throws IOException {
-        System.out.println("[" + this.name + "] started.");
+        Logger.log("[" + this.name + "] started.");
         this.out = new ByteArrayOutputStream();
         this.process = builder.start();
     }
@@ -38,7 +39,7 @@ public class Instance {
         if (!this.isAvailable()) return;
 
         if (!this.process.isAlive()) {
-            System.out.println("[" + this.name + "] died.");
+            Logger.log("[" + this.name + "] died.");
             this.process.destroy();
             this.process = null;
             return;
@@ -53,7 +54,7 @@ public class Instance {
                 this.out.write(process.getErrorStream().read());
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.error(e);
         }
     }
 }

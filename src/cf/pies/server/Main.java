@@ -2,6 +2,7 @@ package cf.pies.server;
 
 import cf.pies.server.action.Action;
 import cf.pies.server.action.ActionExecutor;
+import cf.pies.server.action.ActionManager;
 import cf.pies.server.action.executor.EchoAction;
 import cf.pies.server.action.executor.ListAction;
 import cf.pies.server.action.executor.OutAction;
@@ -17,39 +18,32 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Main {
+    private static final Main main = new Main();
+    public static Main get() {
+        return main;
+    }
     public static void main(String[] args) {
-        new Main().start();
+        main.start();
     }
 
     // ---
 
-
     public List<Instance> instances = new ArrayList<>();
-    public HashMap<Action, ActionExecutor> executorMap = new HashMap<>();
 
-    public void registerAction(ActionExecutor executor) {
-        this.executorMap.put(executor.getAction(), executor);
-    }
-
-    public void executeAction(Action action, List<String> arguments) throws ActionNotExistException {
-        if (!this.executorMap.containsKey(action)) {
-            throw new ActionNotExistException();
-        }
-        this.executorMap.get(action).run(this, arguments);
-    }
-
+    public Console console = new Console();
+    public ConsoleThread consoleThread = new ConsoleThread(this, this.console);
+    public ActionManager actionManager = new ActionManager(this);
     public void start() {
         // Testing - Add example instances
         instances.add(new Instance("Java-Version", Arrays.asList("java", "-version")));
         instances.add(new Instance("Node-Version", Arrays.asList("node", "--version")));
 
         // Add actions
-        this.registerAction(new EchoAction());
-        this.registerAction(new StartAction());
-        this.registerAction(new ListAction());
-        this.registerAction(new OutAction());
+        this.actionManager.registerAction(new EchoAction());
+        this.actionManager.registerAction(new StartAction());
+        this.actionManager.registerAction(new ListAction());
+        this.actionManager.registerAction(new OutAction());
 
-        ConsoleThread consoleThread = new ConsoleThread(this);
         consoleThread.start();
 
         while (consoleThread.isAlive()) {

@@ -3,13 +3,15 @@ package cf.pies.server.cli;
 import cf.pies.server.Main;
 import cf.pies.server.common.ExecutableLine;
 import cf.pies.server.exception.ActionNotExistException;
+import cf.pies.server.logger.Logger;
 
 public class ConsoleThread extends Thread implements Runnable {
-    public Console console = new Console();
+    public final Console console;
     public final Main main;
 
-    public ConsoleThread(Main main) {
+    public ConsoleThread(Main main, Console console) {
         this.main = main;
+        this.console = console;
     }
 
 
@@ -19,9 +21,10 @@ public class ConsoleThread extends Thread implements Runnable {
         while (console.scanner.hasNextLine()) {
             String line = console.scanner.nextLine();
             ExecutableLine executable = console.parseLine(line);
+            console.prompting = false;
 
             if (executable == null) {
-                System.out.println("Failed to parse line.");
+                Logger.log("Failed to parse line.");
                 console.prompt();
                 continue;
             }
@@ -32,10 +35,10 @@ public class ConsoleThread extends Thread implements Runnable {
             }
 
             try {
-                main.executeAction(executable.action, executable.arguments);
+                main.actionManager.executeAction(executable);
             } catch (ActionNotExistException e) {
-                e.printStackTrace();
-                System.out.println("Failed to run action. " + executable.action);
+                Logger.error(e);
+                Logger.log("Failed to run action. " + executable.action);
             }
 
             // print prompter
