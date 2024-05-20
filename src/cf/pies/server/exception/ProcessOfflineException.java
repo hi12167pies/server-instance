@@ -1,4 +1,4 @@
-package cf.pies.server.server.error;
+package cf.pies.server.exception;
 
 public class ProcessOfflineException extends Exception {
     public ProcessOfflineException() {

@@ -1,6 +1,6 @@
 package cf.pies.server.cli;
 
-import cf.pies.server.common.Action;
+import cf.pies.server.action.Action;
 import cf.pies.server.common.ExecutableLine;
 
 import java.util.Arrays;
@@ -8,15 +8,13 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Console {
-    private final Scanner scanner = new Scanner(System.in);
+    public Scanner scanner = new Scanner(System.in);
 
-    public String readLine() {
+    public void prompt() {
         System.out.print("$ ");
-        return scanner.nextLine();
     }
 
-    public ExecutableLine readParsedLine() {
-        String line = this.readLine();
+    public ExecutableLine parseLine(String line) {
         List<String> arguments = Arrays.asList(line.split(" "));
 
         if (arguments.isEmpty()) {
@@ -36,12 +34,11 @@ public class Console {
             case "start":
                 action = Action.START_INSTANCE;
                 break;
+            case "test":
+                action = Action.TEST;
+                break;
         }
 
         return new ExecutableLine(action, arguments.subList(1, arguments.size()));
-    }
-
-    public void log(Object object) {
-        System.out.println(object);
     }
 }

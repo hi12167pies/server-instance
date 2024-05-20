@@ -1,11 +1,16 @@
 package cf.pies.server;
 
+import cf.pies.server.action.Action;
+import cf.pies.server.action.ActionExecutor;
+import cf.pies.server.action.executor.EchoAction;
 import cf.pies.server.cli.Console;
-import cf.pies.server.common.ExecutableLine;
+import cf.pies.server.cli.ConsoleThread;
+import cf.pies.server.exception.ActionNotExistException;
 import cf.pies.server.server.Instance;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class Main {
@@ -17,43 +22,34 @@ public class Main {
 
 
     public List<Instance> instances = new ArrayList<>();
-    public Console console = new Console();
+    public HashMap<Action, ActionExecutor> executorMap = new HashMap<>();
+
+    public void registerAction(ActionExecutor executor) {
+        this.executorMap.put(executor.getAction(), executor);
+    }
+
+    public void executeAction(Action action, List<String> arguments) throws ActionNotExistException {
+        if (!this.executorMap.containsKey(action)) {
+            throw new ActionNotExistException();
+        }
+        this.executorMap.get(action).run(this, arguments);
+    }
 
     public void start() {
+        // Testing - Add example instance
         instances.add(new Instance("Java Version", Arrays.asList("java", "-version")));
-        while (true) {
-            this.loop();
-        }
+
+        // Add actions
+        this.registerAction(new EchoAction());
+
+        ConsoleThread consoleThread = new ConsoleThread(this);
+        consoleThread.start();
     }
 
     public void loop() {
         // Info loop
         for (Instance instance : instances) {
             instance.loop();
-        }
-
-        // This can be swapped out later, for a web panel or something, if needed.
-        ExecutableLine line = console.readParsedLine();
-        if (line == null) return;
-        if (line.action == null) {
-            console.log("Unknown action.");
-            return;zz
-        }
-
-        // Handle actions
-        switch (line.action) {
-            case ECHO:
-                console.log(String.join(" ", line.arguments));
-                break;
-            case LIST_INSTANCE:
-                if (instances.isEmpty()) {
-                    console.log("There are currently no instances.");
-                    return;
-                }
-                for (Instance instance : instances) {
-                    System.out.println(instance.name + " - (" + String.join(" ", instance.builder.command()) + ") - " + (instance.isEnabled() ? "Online" : "Offline"));
-                }
-                break;
         }
     }
 }
