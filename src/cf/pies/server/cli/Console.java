@@ -10,11 +10,17 @@ public class Console {
     public Scanner scanner = new Scanner(System.in);
     public boolean prompting = false;
 
+    /**
+     * Shows the prompt character for the user
+     */
     public void prompt() {
         this.prompting = true;
         System.out.print("> ");
     }
 
+    /**
+     * Parsed a string line into an {@link ExecutableLine}
+     */
     public ExecutableLine parseLine(String line) {
         List<String> arguments = Arrays.asList(line.split(" "));
 

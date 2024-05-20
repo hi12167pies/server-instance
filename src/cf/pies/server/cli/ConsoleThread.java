@@ -17,6 +17,7 @@ public class ConsoleThread extends Thread implements Runnable {
     @Override
     public void run() {
         console.prompt();
+
         while (console.scanner.hasNextLine()) {
             String line = console.scanner.nextLine();
             ExecutableLine executable = console.parseLine(line);

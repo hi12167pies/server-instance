@@ -33,6 +33,7 @@ public class Main {
     public Console console = new Console();
     public ConsoleThread consoleThread = new ConsoleThread(this, this.console);
     public ActionManager actionManager = new ActionManager(this);
+
     public void start() {
         // Testing - Add example instances
         instances.add(new Instance("Java-Version", Arrays.asList("java", "-version")));
@@ -44,8 +45,10 @@ public class Main {
         this.actionManager.registerAction(new ListAction());
         this.actionManager.registerAction(new OutAction());
 
+        // Start console thread, that handles user input.
         consoleThread.start();
 
+        // If the console thread dies, then the program is done.
         while (consoleThread.isAlive()) {
             for (Instance instance : this.instances) {
                 instance.loop();
