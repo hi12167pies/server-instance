@@ -2,7 +2,7 @@ package cf.pies.server.server;
 
 import cf.pies.server.exception.ProcessOfflineException;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 public class Instance {
@@ -13,15 +13,8 @@ public class Instance {
         builder.command(commands);
     }
 
-    public void log(String data) {
-        System.out.println("[" + this.name + "] has started.");
-    }
-
     public Process process = null;
     public ProcessBuilder builder = new ProcessBuilder();
-
-    // Output is all the data (logs/stdout) the process will return
-    public byte[] output = new byte[]{};
 
     public boolean isAvailable() {
         return this.process != null;
@@ -34,8 +27,12 @@ public class Instance {
     }
 
     public void start() throws IOException {
+        System.out.println("[" + this.name + "] started.");
+        this.out = new ByteArrayOutputStream();
         this.process = builder.start();
     }
+
+    public ByteArrayOutputStream out;
 
     public void loop() {
         if (!this.isAvailable()) return;
@@ -48,7 +45,13 @@ public class Instance {
         }
 
         try {
-            System.out.println(this.process.getInputStream().available());
+            while (process.getInputStream().available() > 0) {
+                this.out.write(process.getInputStream().read());
+            }
+
+            while (process.getErrorStream().available() > 0) {
+                this.out.write(process.getErrorStream().read());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

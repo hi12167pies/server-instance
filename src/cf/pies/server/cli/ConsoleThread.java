@@ -22,17 +22,19 @@ public class ConsoleThread extends Thread implements Runnable {
 
             if (executable == null) {
                 System.out.println("Failed to parse line.");
-                return;
+                console.prompt();
+                continue;
             }
 
             if (executable.action == null) {
-                System.out.println("Action not found.");
-                return;
+                console.prompt();
+                continue;
             }
 
             try {
                 main.executeAction(executable.action, executable.arguments);
             } catch (ActionNotExistException e) {
+                e.printStackTrace();
                 System.out.println("Failed to run action. " + executable.action);
             }
 

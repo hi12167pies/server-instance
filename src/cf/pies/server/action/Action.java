@@ -5,5 +5,5 @@ public enum Action {
     ECHO,
     START_INSTANCE,
     LIST_INSTANCE,
-    EXIT_SYSTEM
+    OUT_INSTANCE
 }

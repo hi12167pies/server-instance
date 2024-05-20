@@ -37,6 +37,9 @@ public class Console {
             case "test":
                 action = Action.TEST;
                 break;
+            case "out":
+                action = Action.OUT_INSTANCE;
+                break;
         }
 
         return new ExecutableLine(action, arguments.subList(1, arguments.size()));
