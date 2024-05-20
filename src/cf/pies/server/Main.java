@@ -52,11 +52,4 @@ public class Main {
             }
         }
     }
-
-    public void loop() {
-        // Info loop
-        for (Instance instance : instances) {
-            instance.loop();
-        }
-    }
 }
