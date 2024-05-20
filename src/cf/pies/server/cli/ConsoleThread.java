@@ -1,7 +1,6 @@
 package cf.pies.server.cli;
 
 import cf.pies.server.Main;
-import cf.pies.server.common.ExecutableLine;
 import cf.pies.server.exception.ActionNotExistException;
 import cf.pies.server.logger.Logger;
 

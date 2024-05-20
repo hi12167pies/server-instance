@@ -1,4 +1,4 @@
-package cf.pies.server.common;
+package cf.pies.server.cli;
 
 import cf.pies.server.action.Action;
 
