@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 public class Console {
     public Scanner scanner = new Scanner(System.in);
+    public String prompter = "> ";
     public boolean prompting = false;
 
     /**
@@ -15,7 +16,7 @@ public class Console {
      */
     public void prompt() {
         this.prompting = true;
-        System.out.print("> ");
+        System.out.print(this.prompter);
     }
 
     /**
@@ -46,6 +47,12 @@ public class Console {
                 break;
             case "out":
                 action = Action.OUT_INSTANCE;
+                break;
+            case "stop":
+                action = Action.STOP_INSTANCE;
+                break;
+            case "connect":
+                action = Action.CONNECT_INSTANCE;
                 break;
         }
 

@@ -29,6 +29,11 @@ public class Instance {
         this.process = builder.start();
     }
 
+    public void stop() {
+        Logger.log("[" + this.name + "] stopping.");
+        this.process.destroy();
+    }
+
     public void sendInput(String text) throws ProcessOfflineException, IOException {
         if (!this.isAvailable()) throw new ProcessOfflineException();
         this.process.getOutputStream().write(text.getBytes());
@@ -40,7 +45,7 @@ public class Instance {
 
         // If the process is no longer alive, we should end and destroy it.
         if (!this.process.isAlive()) {
-            Logger.log("[" + this.name + "] died.");
+            Logger.log("[" + this.name + "] stopped (not alive).");
             this.process.destroy();
             this.process = null;
             return;

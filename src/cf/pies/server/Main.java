@@ -1,20 +1,14 @@
 package cf.pies.server;
 
-import cf.pies.server.action.Action;
-import cf.pies.server.action.ActionExecutor;
 import cf.pies.server.action.ActionManager;
-import cf.pies.server.action.executor.EchoAction;
-import cf.pies.server.action.executor.ListAction;
-import cf.pies.server.action.executor.OutAction;
-import cf.pies.server.action.executor.StartAction;
+import cf.pies.server.action.executor.*;
 import cf.pies.server.cli.Console;
 import cf.pies.server.cli.ConsoleThread;
-import cf.pies.server.exception.ActionNotExistException;
 import cf.pies.server.server.Instance;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 
 public class Main {
@@ -38,12 +32,14 @@ public class Main {
         // Testing - Add example instances
         instances.add(new Instance("Java-Version", Arrays.asList("java", "-version")));
         instances.add(new Instance("Node-Version", Arrays.asList("node", "--version")));
+        instances.add(new Instance("Bash", Collections.singletonList("C:\\Program Files\\Git\\bin\\bash.exe")));
 
         // Add actions
         this.actionManager.registerAction(new EchoAction());
         this.actionManager.registerAction(new StartAction());
         this.actionManager.registerAction(new ListAction());
         this.actionManager.registerAction(new OutAction());
+        this.actionManager.registerAction(new StopAction());
 
         // Start console thread, that handles user input.
         consoleThread.start();
