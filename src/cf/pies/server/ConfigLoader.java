@@ -36,6 +36,8 @@ public class ConfigLoader {
                 }
                 main.instances.add(instance);
             }
+
+            reader.close();
         } catch (Exception e) {
             Logger.error(e);
             Logger.log("Failed to read config.");
