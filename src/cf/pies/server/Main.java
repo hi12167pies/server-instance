@@ -36,11 +36,12 @@ public class Main {
     }
 
     public void start() {
+        // Add shutdown hook to close processes
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             for (Instance instance : instances) {
                 if (instance.isAvailable()) {
                     Logger.log("Shutting down " + instance.name);
-                    instance.stop();
+                    instance.kill();
                 }
             }
         }));

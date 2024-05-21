@@ -35,12 +35,12 @@ public class Instance {
         this.process = builder.start();
     }
 
-    public void stop() {
+    public void kill() {
         if (this.isConnected()) {
             Main.get().disconnectInstance();
         }
         Logger.log("[" + this.name + "] stopping.");
-        this.process.destroyForcibly();
+        this.process.destroy();
         this.process = null;
     }
 
@@ -61,7 +61,7 @@ public class Instance {
         // If the process is no longer alive, we should end and destroy it.
         if (!this.process.isAlive()) {
             Logger.log("[" + this.name + "] not alive.");
-            this.stop();
+            this.kill();
             return;
         }
 

@@ -7,7 +7,6 @@ import cf.pies.server.logger.Logger;
 import cf.pies.server.server.Instance;
 import cf.pies.server.utils.ActionUtil;
 
-import java.io.IOException;
 import java.util.List;
 
 public class StopAction implements ActionExecutor {
@@ -28,6 +27,6 @@ public class StopAction implements ActionExecutor {
             Logger.log(Logger.INSTANCE_NOT_AVAILABLE);
             return;
         }
-        instance.stop();
+        instance.kill();
     }
 }

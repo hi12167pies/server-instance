@@ -6,6 +6,7 @@ import cf.pies.server.action.ActionExecutor;
 import cf.pies.server.logger.Logger;
 import cf.pies.server.server.Instance;
 import cf.pies.server.utils.ActionUtil;
+import sun.rmi.runtime.Log;
 
 import java.util.List;
 
@@ -23,8 +24,8 @@ public class OutAction implements ActionExecutor {
             Logger.log(Logger.INSTANCE_NOT_FOUND);
             return;
         }
-        if (!instance.isAvailable()) {
-            Logger.log(Logger.INSTANCE_NOT_AVAILABLE);
+        if (instance.out == null) {
+            Logger.log("Instance has no output.");
             return;
         }
         Logger.log(instance.out.toString());
