@@ -28,7 +28,7 @@ public class ConfigLoader {
                 }
             }
 
-            JsonArray serverArray = json.getAsJsonArray("servers");
+            JsonArray serverArray = json.getAsJsonArray("instances");
 
             // TODO Delete instances that have been removed (confirm prompt?)
             for (JsonElement element : serverArray) {
