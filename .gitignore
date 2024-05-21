@@ -2,6 +2,9 @@
 out/
 *.iml
 
+# maven
+target/
+dependency-reduced-pom.xml
 
 # minecraft server
 mc/
