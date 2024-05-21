@@ -1,4 +1,4 @@
-package cf.pies.server.action.executor;
+package cf.pies.server.action.executor.instance;
 
 import cf.pies.server.Main;
 import cf.pies.server.action.Action;
@@ -9,10 +9,10 @@ import cf.pies.server.utils.ActionUtil;
 
 import java.util.List;
 
-public class StopAction implements ActionExecutor {
+public class OutAction implements ActionExecutor {
     @Override
     public Action getAction() {
-        return Action.STOP_INSTANCE;
+        return Action.OUT_INSTANCE;
     }
 
     @Override
@@ -23,10 +23,10 @@ public class StopAction implements ActionExecutor {
             Logger.log(Logger.INSTANCE_NOT_FOUND);
             return;
         }
-        if (!instance.isAvailable()) {
-            Logger.log(Logger.INSTANCE_NOT_AVAILABLE);
+        if (instance.out == null) {
+            Logger.log("Instance has no output.");
             return;
         }
-        instance.kill();
+        Logger.log(instance.out.toString());
     }
 }

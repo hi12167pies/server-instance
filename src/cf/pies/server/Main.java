@@ -2,20 +2,15 @@ package cf.pies.server;
 
 import cf.pies.server.action.ActionManager;
 import cf.pies.server.action.executor.*;
+import cf.pies.server.action.executor.general.ExitAction;
+import cf.pies.server.action.executor.general.ReloadConfigAction;
+import cf.pies.server.action.executor.instance.*;
 import cf.pies.server.cli.Console;
 import cf.pies.server.cli.ConsoleThread;
 import cf.pies.server.logger.Logger;
 import cf.pies.server.server.Instance;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.stream.JsonReader;
 
-import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class Main {
@@ -54,14 +49,18 @@ public class Main {
 
         ConfigLoader.loadConfig(this);
 
-        // Register actions
-        actionManager.registerAction(new EchoAction());
+        // Register actions - Instance actions
         actionManager.registerAction(new StartAction());
         actionManager.registerAction(new ListAction());
         actionManager.registerAction(new OutAction());
         actionManager.registerAction(new StopAction());
         actionManager.registerAction(new SendAction());
         actionManager.registerAction(new ConnectAction());
+
+        // Register actions - General actions
+        actionManager.registerAction(new EchoAction());
+        actionManager.registerAction(new ReloadConfigAction());
+        actionManager.registerAction(new ExitAction());
 
         // Start console thread, that handles user input.
         consoleThread.start();

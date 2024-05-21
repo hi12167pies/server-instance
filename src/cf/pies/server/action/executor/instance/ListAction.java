@@ -1,4 +1,4 @@
-package cf.pies.server.action.executor;
+package cf.pies.server.action.executor.instance;
 
 import cf.pies.server.Main;
 import cf.pies.server.action.Action;

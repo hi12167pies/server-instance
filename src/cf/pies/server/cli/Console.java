@@ -81,6 +81,13 @@ public class Console {
             case "send":
                 action = Action.SEND_INSTANCE;
                 break;
+            case "exit":
+                action = Action.EXIT;
+                break;
+            case "reloadconfig":
+            case "rlconfig":
+                action = Action.RELOAD_CONFIG;
+                break;
         }
 
         return new ExecutableLine(action, arguments.subList(1, arguments.size()));

@@ -1,4 +1,4 @@
-package cf.pies.server.action.executor;
+package cf.pies.server.action.executor.instance;
 
 import cf.pies.server.Main;
 import cf.pies.server.action.Action;
@@ -7,12 +7,13 @@ import cf.pies.server.logger.Logger;
 import cf.pies.server.server.Instance;
 import cf.pies.server.utils.ActionUtil;
 
+import java.io.IOException;
 import java.util.List;
 
-public class OutAction implements ActionExecutor {
+public class StartAction implements ActionExecutor {
     @Override
     public Action getAction() {
-        return Action.OUT_INSTANCE;
+        return Action.START_INSTANCE;
     }
 
     @Override
@@ -23,10 +24,11 @@ public class OutAction implements ActionExecutor {
             Logger.log(Logger.INSTANCE_NOT_FOUND);
             return;
         }
-        if (instance.out == null) {
-            Logger.log("Instance has no output.");
-            return;
+        try {
+            instance.start();
+        } catch (IOException e) {
+            Logger.error(e);
+            Logger.log("Failed to start instance.");
         }
-        Logger.log(instance.out.toString());
     }
 }

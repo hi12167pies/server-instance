@@ -1,4 +1,4 @@
-package cf.pies.server.action.executor;
+package cf.pies.server.action.executor.instance;
 
 import cf.pies.server.Main;
 import cf.pies.server.action.Action;
@@ -9,10 +9,10 @@ import cf.pies.server.utils.ActionUtil;
 
 import java.util.List;
 
-public class ConnectAction implements ActionExecutor {
+public class StopAction implements ActionExecutor {
     @Override
     public Action getAction() {
-        return Action.CONNECT_INSTANCE;
+        return Action.STOP_INSTANCE;
     }
 
     @Override
@@ -27,7 +27,6 @@ public class ConnectAction implements ActionExecutor {
             Logger.log(Logger.INSTANCE_NOT_AVAILABLE);
             return;
         }
-        Logger.log(instance.out.toString());
-        main.connectedInstance = instance;
+        instance.kill();
     }
 }
