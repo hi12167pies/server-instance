@@ -52,13 +52,13 @@ public class Main {
         instances.add(new Instance("Minecraft", Arrays.asList("java", "-jar", "server.jar")).path("mc"));
 
         // Register actions
-        this.actionManager.registerAction(new EchoAction());
-        this.actionManager.registerAction(new StartAction());
-        this.actionManager.registerAction(new ListAction());
-        this.actionManager.registerAction(new OutAction());
-        this.actionManager.registerAction(new StopAction());
-        this.actionManager.registerAction(new SendAction());
-        this.actionManager.registerAction(new ConnectAction());
+        actionManager.registerAction(new EchoAction());
+        actionManager.registerAction(new StartAction());
+        actionManager.registerAction(new ListAction());
+        actionManager.registerAction(new OutAction());
+        actionManager.registerAction(new StopAction());
+        actionManager.registerAction(new SendAction());
+        actionManager.registerAction(new ConnectAction());
 
         // Start console thread, that handles user input.
         consoleThread.start();
