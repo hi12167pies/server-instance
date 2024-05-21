@@ -1,7 +1,10 @@
 package cf.pies.server.action;
 
 public enum Action {
-    TEST, // Used to test stuff
+    // Used to test stuff
+    TEST,
+
+    // General
     ECHO,
     EXIT,
     RELOAD_CONFIG,
