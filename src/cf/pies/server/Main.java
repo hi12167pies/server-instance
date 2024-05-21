@@ -34,12 +34,13 @@ public class Main {
         instances.add(new Instance("Node-Version", Arrays.asList("node", "--version")));
         instances.add(new Instance("Bash", Collections.singletonList("C:\\Program Files\\Git\\bin\\bash.exe")));
 
-        // Add actions
+        // Register actions
         this.actionManager.registerAction(new EchoAction());
         this.actionManager.registerAction(new StartAction());
         this.actionManager.registerAction(new ListAction());
         this.actionManager.registerAction(new OutAction());
         this.actionManager.registerAction(new StopAction());
+        this.actionManager.registerAction(new SendAction());
 
         // Start console thread, that handles user input.
         consoleThread.start();

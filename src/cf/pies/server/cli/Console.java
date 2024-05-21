@@ -54,6 +54,9 @@ public class Console {
             case "connect":
                 action = Action.CONNECT_INSTANCE;
                 break;
+            case "send":
+                action = Action.SEND_INSTANCE;
+                break;
         }
 
         return new ExecutableLine(action, arguments.subList(1, arguments.size()));
