@@ -1,7 +1,6 @@
 package cf.pies.server.logger;
 
 import cf.pies.server.Main;
-import cf.pies.server.utils.StringUtil;
 
 public class Logger {
     private static final Main main = Main.get();

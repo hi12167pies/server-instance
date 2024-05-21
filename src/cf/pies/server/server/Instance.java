@@ -4,7 +4,9 @@ import cf.pies.server.Main;
 import cf.pies.server.exception.ProcessOfflineException;
 import cf.pies.server.logger.Logger;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class Instance {
