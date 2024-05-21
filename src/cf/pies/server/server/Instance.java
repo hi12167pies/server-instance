@@ -41,7 +41,7 @@ public class Instance {
         if (this.isConnected()) {
             Main.get().disconnectInstance();
         }
-        Logger.log("[" + this.name + "] stopping.");
+        Logger.log("[" + this.name + "] stopped (killed).");
         this.process.destroy();
         this.process = null;
     }

@@ -10,7 +10,9 @@ import com.google.gson.stream.JsonReader;
 
 import java.io.FileReader;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ConfigLoader {
     public static void loadConfig(Main main) {
@@ -18,8 +20,17 @@ public class ConfigLoader {
             JsonReader reader = new JsonReader(new FileReader("config.json"));
             JsonObject json = new Gson().fromJson(reader, JsonObject.class);
 
+            Set<String> autoStart = new HashSet<>();
+            if (json.has("auto-start")) {
+                JsonArray startArray = json.getAsJsonArray("auto-start");
+                for (JsonElement element : startArray) {
+                    autoStart.add(element.getAsString());
+                }
+            }
+
             JsonArray serverArray = json.getAsJsonArray("servers");
 
+            // TODO Delete instances that have been removed (confirm prompt?)
             for (JsonElement element : serverArray) {
                 JsonObject serverObject = element.getAsJsonObject();
                 if (!serverObject.has("name") || !serverObject.has("command")) {
@@ -27,12 +38,19 @@ public class ConfigLoader {
                     continue;
                 }
                 String name = serverObject.get("name").getAsString();
+                if (main.instances.stream().anyMatch(instance -> instance.name.equalsIgnoreCase(name))) {
+                    Logger.log("Instance " + name + " already exists.");
+                    continue;
+                }
                 List<String> commands = Arrays.asList(
                         serverObject.get("command").getAsString().split(" ")
                 );
                 Instance instance = new Instance(name, commands);
                 if (serverObject.has("path")) {
                     instance.path(serverObject.get("path").getAsString());
+                }
+                if (autoStart.contains(instance.name)) {
+                    instance.start();
                 }
                 main.instances.add(instance);
             }

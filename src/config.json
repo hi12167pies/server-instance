@@ -1,0 +1,9 @@
+{
+  "auto-start": [],
+  "instances": [
+    {
+      "name": "Java version",
+      "command": "java -version"
+    }
+  ]
+}

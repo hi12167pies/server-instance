@@ -6,5 +6,6 @@ out/
 target/
 dependency-reduced-pom.xml
 
-# minecraft server
+# testing
+config.json
 mc/
