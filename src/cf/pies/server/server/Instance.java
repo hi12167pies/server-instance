@@ -1,5 +1,6 @@
 package cf.pies.server.server;
 
+import cf.pies.server.Main;
 import cf.pies.server.exception.ProcessOfflineException;
 import cf.pies.server.logger.Logger;
 
@@ -35,8 +36,12 @@ public class Instance {
     }
 
     public void stop() {
+        if (this.isConnected()) {
+            Main.get().disconnectInstance();
+        }
         Logger.log("[" + this.name + "] stopping.");
         this.process.destroyForcibly();
+        this.process = null;
     }
 
     public void sendInput(String text) throws ProcessOfflineException, IOException {
@@ -45,14 +50,18 @@ public class Instance {
         this.process.getOutputStream().flush();
     }
 
+    public boolean isConnected() {
+        Instance connectedInstance = Main.get().connectedInstance;
+        return connectedInstance == this;
+    }
+
     public void loop() {
         if (!this.isAvailable()) return;
 
         // If the process is no longer alive, we should end and destroy it.
         if (!this.process.isAlive()) {
-            Logger.log("[" + this.name + "] stopped (not alive).");
-            this.process.destroy();
-            this.process = null;
+            Logger.log("[" + this.name + "] not alive.");
+            this.stop();
             return;
         }
 
@@ -60,11 +69,19 @@ public class Instance {
             // Read the input (aka the process stdout) and the error (aka the process stderr)
             // I have put then on the same stream, but using different ones could maybe be useful?
             while (process.getInputStream().available() > 0) {
-                this.out.write(process.getInputStream().read());
+                int data = process.getInputStream().read();
+                if (this.isConnected()) {
+                    Logger.logChar((char) data);
+                }
+                this.out.write(data);
             }
 
             while (process.getErrorStream().available() > 0) {
-                this.out.write(process.getErrorStream().read());
+                int data = process.getErrorStream().read();
+                if (this.isConnected()) {
+                    Logger.logChar((char) data);
+                }
+                this.out.write(data);
             }
         } catch (IOException e) {
             Logger.error(e);

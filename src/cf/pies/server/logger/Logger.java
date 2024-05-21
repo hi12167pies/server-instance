@@ -8,13 +8,24 @@ public class Logger {
 
     public static void log(Object object) {
         if (main.console.prompting) {
-            // Reset to start of line, clear prompt with spaces, reset to start of line
-            System.out.print("\r" + (StringUtil.repeat(" ", main.console.prompter.length())) + "\r");
+            main.console.resetPrompt();
         }
         System.out.println(object);
-        // Prompt again
         if (main.console.prompting) {
             main.console.prompt();
+        }
+    }
+
+    public static void logChar(char ch) {
+        if (main.console.prompting) {
+            main.console.resetPrompt();
+        }
+        System.out.print(ch);
+        if (ch == '\n') {
+            main.console.prompting = true;
+            main.console.prompt();
+        } else {
+            main.console.prompting = false;
         }
     }
 

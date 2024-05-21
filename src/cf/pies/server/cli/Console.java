@@ -1,22 +1,46 @@
 package cf.pies.server.cli;
 
+import cf.pies.server.Main;
 import cf.pies.server.action.Action;
+import cf.pies.server.utils.StringUtil;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 public class Console {
+    private final Main main;
+
     public Scanner scanner = new Scanner(System.in);
-    public String prompter = "> ";
     public boolean prompting = false;
+
+    public Console(Main main) {
+        this.main = main;
+    }
+
+    /**
+     * Clears the prompt from the terminal
+     */
+    public void resetPrompt() {
+        System.out.print("\r" + (StringUtil.repeat(" ", main.console.getPrompter().length())) + "\r");
+    }
+
+    /**
+     * @return The string used to prompt the user
+     */
+    public String getPrompter() {
+        if (main.connectedInstance != null) {
+            return main.connectedInstance.name + " > ";
+        }
+        return "> ";
+    }
 
     /**
      * Shows the prompt character for the user
      */
     public void prompt() {
         this.prompting = true;
-        System.out.print(this.prompter);
+        System.out.print(this.getPrompter());
     }
 
     /**

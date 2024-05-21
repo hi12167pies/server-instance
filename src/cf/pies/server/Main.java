@@ -24,10 +24,16 @@ public class Main {
     // ---
 
     public List<Instance> instances = new ArrayList<>();
+    public Instance connectedInstance = null;
 
-    public Console console = new Console();
+    public Console console = new Console(this);
     public ConsoleThread consoleThread = new ConsoleThread(this, this.console);
     public ActionManager actionManager = new ActionManager(this);
+
+    public void disconnectInstance() {
+        this.connectedInstance = null;
+        console.prompt();
+    }
 
     public void start() {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -52,6 +58,7 @@ public class Main {
         this.actionManager.registerAction(new OutAction());
         this.actionManager.registerAction(new StopAction());
         this.actionManager.registerAction(new SendAction());
+        this.actionManager.registerAction(new ConnectAction());
 
         // Start console thread, that handles user input.
         consoleThread.start();

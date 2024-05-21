@@ -2,7 +2,10 @@ package cf.pies.server.cli;
 
 import cf.pies.server.Main;
 import cf.pies.server.exception.ActionNotExistException;
+import cf.pies.server.exception.ProcessOfflineException;
 import cf.pies.server.logger.Logger;
+
+import java.io.IOException;
 
 public class ConsoleThread extends Thread implements Runnable {
     public final Console console;
@@ -20,6 +23,25 @@ public class ConsoleThread extends Thread implements Runnable {
 
         while (console.scanner.hasNextLine()) {
             String line = console.scanner.nextLine();
+
+            if (main.connectedInstance != null) {
+                if (line.isEmpty()) {
+                    console.prompt();
+                    continue;
+                }
+                if (line.equalsIgnoreCase("exit")) {
+                    main.disconnectInstance();
+                    continue;
+                }
+                try {
+                    main.connectedInstance.sendInput(line + "\n");
+                } catch (ProcessOfflineException | IOException e) {
+                    Logger.error(e);
+                    Logger.log("Failed to send input to process.");
+                }
+                continue;
+            }
+
             ExecutableLine executable = console.parseLine(line);
             console.prompting = false;
 
