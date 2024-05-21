@@ -1,0 +1,9 @@
+{
+  "servers": [
+    {
+      "name": "Minecraft",
+      "command": "java -jar server.jar",
+      "path": "mc"
+    }
+  ]
+}

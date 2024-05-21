@@ -6,7 +6,13 @@ import cf.pies.server.cli.Console;
 import cf.pies.server.cli.ConsoleThread;
 import cf.pies.server.logger.Logger;
 import cf.pies.server.server.Instance;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonReader;
 
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -46,11 +52,7 @@ public class Main {
             }
         }));
 
-        // Testing - Add example instances
-        instances.add(new Instance("Java-Version", Arrays.asList("java", "-version")));
-        instances.add(new Instance("Node-Version", Arrays.asList("node", "--version")));
-        instances.add(new Instance("Bash", Collections.singletonList("C:\\Program Files\\Git\\bin\\bash.exe")));
-        instances.add(new Instance("Minecraft", Arrays.asList("java", "-jar", "server.jar")).path("mc"));
+        ConfigLoader.loadConfig(this);
 
         // Register actions
         actionManager.registerAction(new EchoAction());
