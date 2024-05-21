@@ -25,7 +25,7 @@ public class StopAction implements ActionExecutor {
             return;
         }
         if (!instance.isAvailable()) {
-            Logger.log("Instance has not started.");
+            Logger.log(Logger.INSTANCE_NOT_AVAILABLE);
             return;
         }
         instance.stop();

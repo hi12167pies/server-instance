@@ -19,6 +19,11 @@ public class Instance {
         builder.command(commands);
     }
 
+    public Instance path(String path) {
+        this.builder.directory(new File(path));
+        return this;
+    }
+
     public boolean isAvailable() {
         return this.process != null;
     }
@@ -31,7 +36,7 @@ public class Instance {
 
     public void stop() {
         Logger.log("[" + this.name + "] stopping.");
-        this.process.destroy();
+        this.process.destroyForcibly();
     }
 
     public void sendInput(String text) throws ProcessOfflineException, IOException {

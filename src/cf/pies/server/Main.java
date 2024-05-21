@@ -4,6 +4,7 @@ import cf.pies.server.action.ActionManager;
 import cf.pies.server.action.executor.*;
 import cf.pies.server.cli.Console;
 import cf.pies.server.cli.ConsoleThread;
+import cf.pies.server.logger.Logger;
 import cf.pies.server.server.Instance;
 
 import java.util.ArrayList;
@@ -29,10 +30,20 @@ public class Main {
     public ActionManager actionManager = new ActionManager(this);
 
     public void start() {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            for (Instance instance : instances) {
+                if (instance.isAvailable()) {
+                    Logger.log("Shutting down " + instance.name);
+                    instance.stop();
+                }
+            }
+        }));
+
         // Testing - Add example instances
         instances.add(new Instance("Java-Version", Arrays.asList("java", "-version")));
         instances.add(new Instance("Node-Version", Arrays.asList("node", "--version")));
         instances.add(new Instance("Bash", Collections.singletonList("C:\\Program Files\\Git\\bin\\bash.exe")));
+        instances.add(new Instance("Minecraft", Arrays.asList("java", "-jar", "server.jar")).path("mc"));
 
         // Register actions
         this.actionManager.registerAction(new EchoAction());

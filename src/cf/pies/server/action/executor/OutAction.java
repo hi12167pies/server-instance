@@ -23,6 +23,10 @@ public class OutAction implements ActionExecutor {
             Logger.log(Logger.INSTANCE_NOT_FOUND);
             return;
         }
+        if (!instance.isAvailable()) {
+            Logger.log(Logger.INSTANCE_NOT_AVAILABLE);
+            return;
+        }
         Logger.log(instance.out.toString());
     }
 }

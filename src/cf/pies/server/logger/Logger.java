@@ -24,4 +24,5 @@ public class Logger {
 
     // Common strings
     public static String INSTANCE_NOT_FOUND = "Instance not found";
+    public static String INSTANCE_NOT_AVAILABLE = "Instance not available";
 }

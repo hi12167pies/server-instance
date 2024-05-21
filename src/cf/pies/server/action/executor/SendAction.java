@@ -25,8 +25,14 @@ public class SendAction implements ActionExecutor {
             Logger.log(Logger.INSTANCE_NOT_FOUND);
             return;
         }
+        if (!instance.isAvailable()) {
+            Logger.log(Logger.INSTANCE_NOT_AVAILABLE);
+            return;
+        }
         try {
-            instance.sendInput(String.join("" , arguments.subList(1, arguments.size())));
+            String data = String.join(" ", arguments.subList(1, arguments.size()));
+            instance.sendInput(data + "\n");
+            Logger.log("Sent input: " + data);
         } catch (ProcessOfflineException | IOException e) {
             Logger.error(e);
             Logger.log("Failed to send input.");
