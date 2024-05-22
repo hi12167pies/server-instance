@@ -27,7 +27,7 @@ public class ConnectAction implements ActionExecutor {
             Logger.log(Logger.INSTANCE_NOT_AVAILABLE);
             return;
         }
-        Logger.log(instance.out.toString());
+        Logger.logBytes(instance.out.toByteArray());
         main.connectedInstance = instance;
     }
 }

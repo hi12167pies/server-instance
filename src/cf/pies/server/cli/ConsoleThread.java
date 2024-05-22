@@ -34,7 +34,7 @@ public class ConsoleThread extends Thread implements Runnable {
                     continue;
                 }
                 try {
-                    main.connectedInstance.sendInput(line + "\n");
+                    main.connectedInstance.sendInput(line + "\r\n");
                 } catch (ProcessOfflineException | IOException e) {
                     Logger.error(e);
                     Logger.log("Failed to send input to process.");

@@ -27,6 +27,6 @@ public class OutAction implements ActionExecutor {
             Logger.log("Instance has no output.");
             return;
         }
-        Logger.log(instance.out.toString());
+        Logger.logBytes(instance.out.toByteArray());
     }
 }

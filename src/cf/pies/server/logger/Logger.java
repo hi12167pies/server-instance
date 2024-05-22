@@ -5,6 +5,18 @@ import cf.pies.server.Main;
 public class Logger {
     private static final Main main = Main.get();
 
+    public static void logBytes(byte[] bytes) {
+        if (main.console.prompting) {
+            main.console.resetPrompt();
+        }
+        for (byte b : bytes) {
+            System.out.print((char) b);
+        }
+        if (main.console.prompting) {
+            main.console.prompt();
+        }
+    }
+
     public static void log(Object object) {
         if (main.console.prompting) {
             main.console.resetPrompt();
