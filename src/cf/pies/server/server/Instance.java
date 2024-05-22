@@ -4,9 +4,7 @@ import cf.pies.server.Main;
 import cf.pies.server.exception.ProcessOfflineException;
 import cf.pies.server.logger.Logger;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 public class Instance {
@@ -16,6 +14,8 @@ public class Instance {
 
     public Process process = null;
     public ProcessBuilder builder = new ProcessBuilder();
+
+    public BufferedWriter inputWriter;
 
     public Instance(String name, List<String> commands) {
         this.name = name;
@@ -28,13 +28,14 @@ public class Instance {
     }
 
     public boolean isAvailable() {
-        return this.process != null;
+        return this.process != null && this.process.isAlive();
     }
 
     public void start() throws IOException {
         Logger.log("[" + this.name + "] started.");
         this.out = new ByteArrayOutputStream();
         this.process = builder.start();
+        this.inputWriter = new BufferedWriter(new OutputStreamWriter(this.process.getOutputStream()));
     }
 
     public void kill() {
@@ -46,10 +47,12 @@ public class Instance {
         this.process = null;
     }
 
-    public void sendInput(String text) throws ProcessOfflineException, IOException {
+    public void sendInputLine(String text) throws ProcessOfflineException, IOException {
         if (!this.isAvailable()) throw new ProcessOfflineException();
-        this.process.getOutputStream().write(text.getBytes());
-        this.process.getOutputStream().flush();
+
+        inputWriter.write(text);
+        inputWriter.newLine();
+        inputWriter.flush();
     }
 
     public boolean isConnected() {

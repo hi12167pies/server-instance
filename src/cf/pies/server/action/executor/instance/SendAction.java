@@ -31,7 +31,7 @@ public class SendAction implements ActionExecutor {
         }
         try {
             String data = String.join(" ", arguments.subList(1, arguments.size()));
-            instance.sendInput(data + "\n");
+            instance.sendInputLine(data);
             Logger.log("Sent input: " + data);
         } catch (ProcessOfflineException | IOException e) {
             Logger.error(e);
